@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 import { useStateContext } from "@/context/StateContext";
 import { MdFavoriteBorder, MdOutlineShoppingCart } from "react-icons/md";
 

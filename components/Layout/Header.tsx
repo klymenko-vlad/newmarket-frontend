@@ -4,9 +4,9 @@ import React from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import WishListBtn from "../ClientSide/WishListAndCartBtn";
-import ProfileLink from "../ClientSide/ProfileLink";
-import SearchForm from "./SearchForm";
+import WishListBtn from "./_components/WishList/WishListAndCartBtn";
+import ProfileLink from "./_components/ProfileLink";
+import SearchHeaderForm from "./_components/SearchHeaderForm";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useStateContext } from "@/context/StateContext";
 
@@ -24,7 +24,7 @@ const Header = () => {
         New Market
       </Link>
 
-      <SearchForm />
+      <SearchHeaderForm />
 
       <nav className="flex items-center space-x-4">
         <div className="hidden items-center space-x-4 md:flex">

@@ -1,15 +1,15 @@
 import React from "react";
 import type { Metadata } from "next";
-import InfinitiveScroll from "@/components/Common/Scroll/InfinitiveScroll";
+import InfinitiveScrollNew from "@/components/Common/Scroll/InfinitiveScrollNew";
 
 export const metadata: Metadata = {
   title: "All Products",
   description: "",
 };
 
-function Page() {
+function page() {
   return (
-    <div className="mb-16 flex">
+    <main className="mb-16 flex">
       <div className="group m-auto px-4 py-4">
         <div className="mb-6">
           <div className="mb-6 flex items-center">
@@ -20,10 +20,10 @@ function Page() {
             <h3 className="text-2xl font-semibold">Explore Our Products</h3>
           </div>
         </div>
-        <InfinitiveScroll type="all" />
+        <InfinitiveScrollNew type="all" />
       </div>
-    </div>
+    </main>
   );
 }
 
-export default Page;
+export default page;

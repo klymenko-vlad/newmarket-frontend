@@ -1,5 +1,12 @@
 import React from "react";
-import Signup from "@/components/Pages/Signup";
+
+import type { Metadata } from "next";
+import Signup from "../_components/Signup";
+
+export const metadata: Metadata = {
+  title: "Signup",
+  description: "Here you can signup in our newMarket app",
+};
 
 const page = () => {
   return <Signup />;

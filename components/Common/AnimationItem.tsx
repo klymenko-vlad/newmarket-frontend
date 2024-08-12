@@ -7,10 +7,14 @@ const AnimationItem = ({
   children,
   className,
   animationType = "translate",
+  animationDuration = 0.5,
+  animationDelay = 0.3,
 }: {
   children: React.ReactNode;
   className?: string;
   animationType?: "translate" | "fade";
+  animationDuration?: number;
+  animationDelay?: number;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -27,7 +31,7 @@ const AnimationItem = ({
               : "translateX(-200px)"
             : "none",
         opacity: isInView ? 1 : 0,
-        transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+        transition: `all ${animationDuration}s cubic-bezier(0.17, 0.55, 0.55, 1) ${animationDelay}s`,
       }}
     >
       {children}

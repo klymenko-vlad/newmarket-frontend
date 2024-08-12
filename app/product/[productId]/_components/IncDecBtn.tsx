@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import "@/components/styles.scss";
+import React, { memo } from "react";
+import "@/app/styles.css";
 import { useStateContext } from "@/context/StateContext";
 
-export default function IncDecBtn() {
+function IncDecBtn() {
   const { decrementQuantities, incrementQuantities, quantities } =
     useStateContext();
 
@@ -21,3 +21,5 @@ export default function IncDecBtn() {
     </div>
   );
 }
+
+export default IncDecBtn;

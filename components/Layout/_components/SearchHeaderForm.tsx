@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import React from "react";
 import { IoMdSearch } from "react-icons/io";
 
-const SearchForm = () => {
+const SearchHeaderForm = () => {
   const router = useRouter();
 
   return (
@@ -52,4 +52,4 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm;
+export default SearchHeaderForm;

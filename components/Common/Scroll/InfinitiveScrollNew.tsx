@@ -39,7 +39,7 @@ interface Props {
   type: "myproducts" | "categories" | "all" | "search";
 }
 
-export default function InfinitiveScroll({ params, type }: Props) {
+export default function InfinitiveScrollNew({ params, type }: Props) {
   const [items, setItems] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [fetching, setFetching] = useState<boolean>(true);
@@ -84,7 +84,7 @@ export default function InfinitiveScroll({ params, type }: Props) {
     setFetching(true);
   };
 
-  const limit = 10;
+  const limit = 15;
 
   let url: string;
   let categorySlugUpperCase: string | null = null;
@@ -109,7 +109,7 @@ export default function InfinitiveScroll({ params, type }: Props) {
     if (
       document.documentElement?.scrollHeight -
         (document.documentElement.scrollTop + window.innerHeight) <=
-        300 &&
+        800 &&
       items.length - totalCount !== 0
     ) {
       setFetching(true);

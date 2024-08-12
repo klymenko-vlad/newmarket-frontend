@@ -1,4 +1,3 @@
-// import Slider from "./ClientSide/Slider";
 import Slider from "../Common/Slider/Slider";
 import { Product } from "@/types/types";
 

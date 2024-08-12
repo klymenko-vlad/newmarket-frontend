@@ -1,13 +1,13 @@
 import { Product } from "@/types/types";
 import { baseUrl } from "@/utils/baseUrl";
-import EditProductForm from "./EditProductForm";
+import EditProductForm from "./_components/EditProductForm";
 import Image from "next/image";
-import IncDecBtn from "../IncDecBtn";
 import WishListBtnAddForPage from "@/components/Common/WishListBtnForPage";
-import Btn from "../Btn";
-import AddToCartBtn from "../AddToCartBtn";
-import SliderForItem from "../SliderForItem";
+import ProductBuyBtn from "../_components/ProductBuyBtn";
+import SliderForItem from "../_components/SliderForItem";
 import { MdAutorenew, MdDeliveryDining } from "react-icons/md";
+import IncDecBtn from "../_components/IncDecBtn";
+import AddToCartBtn from "../_components/AddToCartBtn";
 
 interface Props {
   params: { productId: string };
@@ -114,7 +114,7 @@ export default async function Page({ params }: Props) {
             </div>
 
             <div className="mb-6 flex justify-around">
-              <Btn text={"Buy Now"} product={product} />
+              <ProductBuyBtn product={product} />
               <AddToCartBtn text={"Add to Cart"} product={product} />
             </div>
 

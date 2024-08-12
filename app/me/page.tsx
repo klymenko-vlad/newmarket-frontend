@@ -4,7 +4,7 @@ import { baseUrl } from "@/utils/baseUrl";
 import { cookies } from "next/headers";
 
 import Link from "next/link";
-import Navigation from "./Navigation";
+import Navigation from "./_components/Navigation";
 import { redirect } from "next/navigation";
 
 interface User {

@@ -1,13 +1,13 @@
 import Link from "next/link";
-import React from "react";
-import WishListBtnAddItem from "./WishListBtnAddItem";
+import React, { memo } from "react";
+import WishListBtnAddItem from "../WishListBtnAddItem";
 import { Product } from "@/types/types";
 import truncateString from "@/utils/truncateString";
 import { MdNoPhotography } from "react-icons/md";
 
 import { MdOutlineStar } from "react-icons/md";
 import { MdOutlineStarBorder } from "react-icons/md";
-import AnimationItem from "./AnimationItem";
+import AnimationItem from "../AnimationItem";
 
 interface ItemProps {
   product: Product;
@@ -36,10 +36,13 @@ export const renderFilledStars = (rating: number) => {
   return <div className="flex">{starElements}</div>;
 };
 
-const Item: React.FC<ItemProps> = ({ product, itemForEdit = false }) => {
+const ItemPreview: React.FC<ItemProps> = ({ product, itemForEdit = false }) => {
   return (
-    <AnimationItem animationType="fade">
-      {" "}
+    <AnimationItem
+      animationType="fade"
+      animationDuration={0.3}
+      animationDelay={0}
+    >
       <div className="flex justify-center">
         <div>
           <Link
@@ -106,4 +109,4 @@ const Item: React.FC<ItemProps> = ({ product, itemForEdit = false }) => {
   );
 };
 
-export default Item;
+export default memo(ItemPreview);

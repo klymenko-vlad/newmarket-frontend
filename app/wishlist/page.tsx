@@ -1,20 +1,21 @@
 "use client";
 
-import Item from "@/components/Common/Item";
-import ItemLoading from "@/components/Common/ItemLoading";
+import ItemPreview from "@/components/Common/ItemPreview/ItemPreview";
 import { useStateContext } from "@/context/StateContext";
 import Link from "next/link";
 import React from "react";
 
 const page = () => {
-  const { wishListItems, onRemoveWishList } = useStateContext();
+  const { wishListItems } = useStateContext();
   return (
     <div className="mx-4 my-24">
       <h1 className="mb-8 text-center text-3xl font-bold">Your Wish List</h1>
       <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {wishListItems &&
           wishListItems.length > 1 &&
-          wishListItems.map((item) => <Item product={item} key={item._id} />)}
+          wishListItems.map((item) => (
+            <ItemPreview product={item} key={item._id} />
+          ))}
       </div>
 
       {wishListItems.length < 1 && (

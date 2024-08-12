@@ -1,12 +1,12 @@
 "use client";
 
-import IncDecBtn from "@/app/product/[productId]/IncDecBtn";
 import { useStateContext } from "@/context/StateContext";
-import Image from "next/image";
-import Btn from "./cartBuyBtn";
 import truncateString from "@/utils/truncateString";
-import "@/components/styles.scss";
 import { MdArrowBackIosNew, MdOutlineClose } from "react-icons/md";
+
+import "@/app/styles.css";
+import CartBuyBtn from "./CartBuyBtn";
+
 export default function Cart() {
   const {
     cartItems,
@@ -119,7 +119,7 @@ export default function Cart() {
                 <h3>{totalPrice}$</h3>
               </div>
               <div className="mb-7 flex justify-center">
-                <Btn cartItems={cartItems} />
+                <CartBuyBtn cartItems={cartItems} />
               </div>
             </>
           )}

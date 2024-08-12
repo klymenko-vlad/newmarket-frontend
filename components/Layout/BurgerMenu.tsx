@@ -2,10 +2,9 @@
 
 import React from "react";
 import { useStateContext } from "@/context/StateContext";
-import Image from "next/image";
 import Link from "next/link";
-import WishListBtn from "./WishListAndCartBtn";
-import ProfileLink from "./ProfileLink";
+import WishListBtn from "./_components/WishList/WishListAndCartBtn";
+import ProfileLink from "./_components/ProfileLink";
 import { usePathname } from "next/navigation";
 import {
   MdArrowBackIosNew,
@@ -54,7 +53,7 @@ export default function BurgerMenu() {
           </div>
 
           <WishListBtn />
-          <ProfileLink notBurgerMenu={false} />
+          <ProfileLink />
         </div>
         <div className="flex">
           <ul className="ml-6 space-y-6">

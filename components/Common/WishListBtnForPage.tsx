@@ -5,12 +5,13 @@ import { useStateContext } from "@/context/StateContext";
 import { Product } from "@/types/types";
 import Image from "next/image";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { memo } from "react";
 
 interface ItemProps {
   product: Product;
 }
 
-export default function WishListBtnAddForPage({ product }: ItemProps) {
+function WishListBtnAddForPage({ product }: ItemProps) {
   const { onAddWishList, wishListItems, onRemoveWishList } = useStateContext();
 
   return (
@@ -36,3 +37,5 @@ export default function WishListBtnAddForPage({ product }: ItemProps) {
     </button>
   );
 }
+
+export default WishListBtnAddForPage;

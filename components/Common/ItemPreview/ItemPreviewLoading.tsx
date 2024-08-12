@@ -1,6 +1,6 @@
 import { MdOutlineImage } from "react-icons/md";
 
-export default function ItemLoading() {
+export default function ItemPreviewLoading() {
   return (
     <div className="flex justify-center">
       <div

@@ -1,5 +1,4 @@
 "use client";
-import { FC } from "react";
 import Ripples from "react-ripples";
 
 interface ItemProps {

@@ -5,6 +5,13 @@ import Benefits from "@/components/MainPageComponents/Benefits";
 import AnimationItem from "@/components/Common/AnimationItem";
 import { MdCall, MdEmail } from "react-icons/md";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Here you can find out more about our company employees",
+};
+
 interface WorkerProps {
   name: string;
   desc: string;

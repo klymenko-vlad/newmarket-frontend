@@ -12,7 +12,7 @@ import PreviewMultipleImage from "@/components/Common/PrevievImage/PreviewMultip
 import axios from "axios";
 import { baseUrl, frontendUrl } from "@/utils/baseUrl";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 interface initialValuesInterface {
   name: string;
@@ -36,8 +36,16 @@ const initialValues: initialValuesInterface = {
   pictures: [],
 };
 
+const tokenCheck = () => {
+  const token = Cookies.get("token");
+  if (!token) {
+    redirect("login");
+  }
+};
+
 export default function Page() {
   const router = useRouter();
+  tokenCheck();
 
   return (
     <div className="px-6">

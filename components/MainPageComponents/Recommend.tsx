@@ -1,5 +1,5 @@
 import React from "react";
-import Item from "../Common/Item";
+import ItemPreview from "../Common/ItemPreview/ItemPreview";
 import { Product } from "@/types/types";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ export default function Recommend({ name, items }: RecommendProps) {
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
-        {items && items.map((item) => <Item product={item} />)}
+        {items && items.map((item) => <ItemPreview product={item} />)}
       </div>
       <div className="mb-12 flex justify-center">
         <Link href="/all">

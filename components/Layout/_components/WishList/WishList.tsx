@@ -3,7 +3,6 @@
 import { useStateContext } from "@/context/StateContext";
 import { Product } from "@/types/types";
 import truncateString from "@/utils/truncateString";
-import Image from "next/image";
 import Link from "next/link";
 import { MdArrowBackIosNew, MdOutlineClose } from "react-icons/md";
 

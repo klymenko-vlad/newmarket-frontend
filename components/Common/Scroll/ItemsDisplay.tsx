@@ -1,7 +1,7 @@
 import { Product } from "@/types/types";
-import Item from "../Item";
-import ItemLoading from "../ItemLoading";
-
+import ItemPreview from "../ItemPreview/ItemPreview";
+import ItemPreviewLoading from "../ItemPreview/ItemPreviewLoading";
+import React, { memo } from "react";
 interface ItemsDisplayProps {
   items: Product[];
   fetching: boolean;
@@ -10,13 +10,13 @@ interface ItemsDisplayProps {
   type: "myproducts" | "categories" | "all" | "search";
 }
 
-export default function ItemsDisplay({
+const ItemsDisplay = ({
   items,
   fetching,
   end,
   type,
   categorySlugUpperCase,
-}: ItemsDisplayProps) {
+}: ItemsDisplayProps) => {
   return (
     <>
       {categorySlugUpperCase ? (
@@ -29,11 +29,11 @@ export default function ItemsDisplay({
             )}
             <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {items.map((item) => (
-                <Item product={item} key={item._id} />
+                <ItemPreview product={item} key={item._id} />
               ))}
               {fetching &&
                 Array.from({ length: 5 }).map((_, i) => (
-                  <ItemLoading key={i} />
+                  <ItemPreviewLoading key={i} />
                 ))}
             </div>
             {end && items.length !== 0 && (
@@ -52,14 +52,16 @@ export default function ItemsDisplay({
         <>
           <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {items.map((item) => (
-              <Item
+              <ItemPreview
                 product={item}
                 key={item._id}
                 itemForEdit={type === "myproducts" ? true : false}
               />
             ))}
             {fetching &&
-              Array.from({ length: 5 }).map((_, i) => <ItemLoading key={i} />)}
+              Array.from({ length: 5 }).map((_, i) => (
+                <ItemPreviewLoading key={i} />
+              ))}
           </div>
           {end && items.length !== 0 && (
             <h3 className="my-4 text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
@@ -75,4 +77,6 @@ export default function ItemsDisplay({
       )}
     </>
   );
-}
+};
+
+export default memo(ItemsDisplay);

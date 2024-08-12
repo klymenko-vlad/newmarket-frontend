@@ -1,15 +1,17 @@
-import Item, { renderFilledStars } from "@/components/Common/Item";
+import ItemPreview, {
+  renderFilledStars,
+} from "@/components/Common/ItemPreview/ItemPreview";
 import { baseUrl } from "@/utils/baseUrl";
 import Image from "next/image";
-import Btn from "./Btn";
-import IncDecBtn from "./IncDecBtn";
-import AddToCartBtn from "./AddToCartBtn";
+import ProductBuyBtn from "./_components/ProductBuyBtn";
 import WishListBtnAddForPage from "@/components/Common/WishListBtnForPage";
 
 import { Product } from "@/types/types";
-import SliderForItem from "./SliderForItem";
+import SliderForItem from "./_components/SliderForItem";
 import Link from "next/link";
 import { MdAutorenew, MdDeliveryDining } from "react-icons/md";
+import IncDecBtn from "./_components/IncDecBtn";
+import AddToCartBtn from "./_components/AddToCartBtn";
 
 async function getData(params: string) {
   try {
@@ -44,7 +46,7 @@ function truncateString(str: string, maxLength: number) {
   }
 }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function page({ params }: Props) {
   const product: Product = await getData(params.productId.split("-")[0]);
 
   const slides = [product.mainPicture];
@@ -134,7 +136,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
 
             <div className="mb-6 flex justify-around">
-              <Btn text={"Buy Now"} product={product} />
+              <ProductBuyBtn product={product} />
               <AddToCartBtn text={"Add to Cart"} product={product} />
             </div>
 
@@ -173,7 +175,8 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </div>
       <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
-        {relatedItems && relatedItems.map((item) => <Item product={item} />)}
+        {relatedItems &&
+          relatedItems.map((item) => <ItemPreview product={item} />)}
       </div>
     </div>
   );

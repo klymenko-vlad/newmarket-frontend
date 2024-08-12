@@ -10,6 +10,8 @@ import {
   MdOutlineShoppingBag,
 } from "react-icons/md";
 
+import type { Metadata } from "next";
+
 const BenefitItem = ({
   paragraph,
   header,

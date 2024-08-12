@@ -1,25 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import Link from "next/link";
-import Image from "next/image";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/context/StateContext";
-import { IoMdPerson } from "react-icons/io";
 import {
   MdAccountCircle,
   MdOutlineLogout,
   MdOutlinePerson,
 } from "react-icons/md";
 
-type ProfileLinkProps = {
-  notBurgerMenu?: boolean;
-};
-
-const ProfileLink: React.FC<ProfileLinkProps> = ({ notBurgerMenu = true }) => {
+const ProfileLink = () => {
   const { setShowBurgerMenu } = useStateContext();
 
   const router = useRouter();

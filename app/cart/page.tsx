@@ -1,13 +1,12 @@
 "use client";
 
-import Item from "@/components/Common/Item";
 import { useStateContext } from "@/context/StateContext";
 import Link from "next/link";
 import React from "react";
-import "@/components/styles.scss";
+import "@/app/styles.css";
 import truncateString from "@/utils/truncateString";
-import Btn from "@/components/Layout/ClientSide/Cart/cartBuyBtn";
 import { MdOutlineClose } from "react-icons/md";
+import CartBuyBtn from "@/components/Layout/_components/Cart/CartBuyBtn";
 
 const page = () => {
   const {
@@ -86,7 +85,7 @@ const page = () => {
             <h3>{totalPrice}$</h3>
           </div>
           <div className="flex justify-center">
-            <Btn cartItems={cartItems} />
+            <CartBuyBtn cartItems={cartItems} />
           </div>
         </>
       )}
