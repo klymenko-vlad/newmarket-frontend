@@ -47,9 +47,6 @@ const ItemPreview: React.FC<ItemProps> = ({ product, itemForEdit = false }) => {
         <div>
           <Link
             href={
-              itemForEdit ? `/product/[id]-[name]/edit` : `/product/[id]-[name]`
-            }
-            as={
               itemForEdit
                 ? `/product/${product._id}-${product.name}/edit`
                 : `/product/${product._id}-${product.name}`

@@ -21,8 +21,8 @@ const Login = () => {
       <Image
         src="/signup/signupimg.png"
         alt="signupimg"
-        width={805}
-        height={781}
+        width={605}
+        height={581}
         className="hidden xl:block"
       />
 

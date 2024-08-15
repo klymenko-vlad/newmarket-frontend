@@ -30,8 +30,8 @@ const Signup = () => {
       <Image
         src="/signup/signupimg.png"
         alt="signupimg"
-        width={805}
-        height={781}
+        width={705}
+        height={681}
         className="hidden 2xl:block"
       />
 
