@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Login from "@/components/Pages/Login";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import Login from "../_components/Login";
 
 const tokenCheck = () => {
   const cookieStore = cookies();
@@ -10,6 +10,11 @@ const tokenCheck = () => {
   if (token) {
     redirect("me");
   }
+};
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Here you can login in our newMarket app",
 };
 
 const page = () => {

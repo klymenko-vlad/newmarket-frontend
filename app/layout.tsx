@@ -4,12 +4,11 @@ import { Toaster } from "react-hot-toast";
 
 import Footer from "@/components/Layout/Footer";
 import { StateContext } from "@/context/StateContext";
-import Header from "@/components/Layout/Header/Header";
-import BurgerMenu from "@/components/Layout/ClientSide/BurgerMenu";
-import Cart from "@/components/Layout/ClientSide/Cart/Cart";
-import WishList from "@/components/Layout/ClientSide/WishList/WishList";
-import NewNavMenu from "@/components/Common/NavMenu";
-import NavMenu from "@/components/Common/NavMenu";
+import Header from "@/components/Layout/Header";
+import BurgerMenu from "@/components/Layout/BurgerMenu";
+import Cart from "@/components/Layout/_components/Cart/Cart";
+import WishList from "@/components/Layout/_components/WishList/WishList";
+import NavMenu from "@/components/Layout/NavMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -3,7 +3,7 @@ import React from "react";
 import WishListBtnAddItem from "../WishListBtnAddItem";
 import { Product } from "@/types/types";
 import truncateString from "@/utils/truncateString";
-import { renderFilledStars } from "../Item";
+import { renderFilledStars } from "../ItemPreview/ItemPreview";
 
 interface ItemProps {
   product: Product;
