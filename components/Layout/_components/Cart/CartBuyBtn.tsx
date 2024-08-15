@@ -34,6 +34,12 @@ export default function CartBuyBtn({ cartItems }: BtnProps) {
 
       toast.loading("Redirecting...");
 
+      if (!stripe) {
+        console.error("Stripe.js is not loaded");
+        toast.error("Something is wrong with payment");
+        return;
+      }
+
       stripe.redirectToCheckout({ sessionId: data.id });
     } catch (error) {
       console.error(error);
