@@ -16,7 +16,6 @@ newMarket is a fullstack e-commerce platform designed to provide a seamless shop
 
 ## Backend Dependencies
 
-
 - Node.js: JavaScript runtime environment.
 - Express: Web application framework.
 - MongoDB & Mongoose: Database and object modeling.
@@ -26,11 +25,9 @@ newMarket is a fullstack e-commerce platform designed to provide a seamless shop
 
 ## Frontend Dependencies
 
-
 - Next.js: React framework for server-side rendering.
 - TypeScript: JavaScript with optional static types.
 - React: JavaScript library for building UI.
-- Axios: Promise-based HTTP client for API communication.
 - Swiper: Modern touch slider.
 - Tailwind CSS: Highly customizable CSS framework.
 - Formik: Form handling and validation.

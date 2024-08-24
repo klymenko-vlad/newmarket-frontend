@@ -8,19 +8,6 @@ import Navigation from "./_components/Navigation";
 import { redirect } from "next/navigation";
 import { getMe } from "@/actions/authActions";
 
-interface User {
-  user: {
-    createdAt: string;
-    email: string;
-    name: string;
-    profilePicUrl: string;
-    role: string;
-    updatedAt: string;
-    __v: number;
-    _id: string;
-  };
-}
-
 const tokenCheck = () => {
   const cookieStore = cookies();
   const token = cookieStore.get("token");
@@ -31,7 +18,11 @@ const tokenCheck = () => {
 
 export default async function Page() {
   tokenCheck();
-  const { user }: User = await getMe();
+  const user = await getMe();
+
+  if (!user) {
+    return <div>Something is went very wrong</div>;
+  }
 
   return (
     <div className="px-6">

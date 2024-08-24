@@ -14,6 +14,7 @@ import { baseUrl } from "@/utils/baseUrl";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { Product, User } from "@/types/types";
+import { getMe } from "@/actions/authActions";
 
 interface initialValuesInterface {
   [key: string]: string | number | File | string[] | FileList;
@@ -36,25 +37,15 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
 
   useEffect(() => {
     const profileCheck = async () => {
-      interface UserData {
-        data: {
-          user: User;
-        };
-      }
-
       try {
         const token = Cookies.get("token");
         if (!token) {
           throw new Error("You can`t edit this product");
         }
 
-        const { data }: UserData = await axios.get(`${baseUrl}/api/auth`, {
-          headers: {
-            Authorization: token.toString(),
-          },
-        });
+        const user = await getMe();
 
-        if (data.user._id !== product.user._id) {
+        if (user?._id !== product.user._id) {
           throw new Error("You can`t edit this product");
         }
       } catch (error) {
