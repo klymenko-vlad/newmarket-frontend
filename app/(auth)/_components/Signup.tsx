@@ -71,9 +71,9 @@ const Signup = () => {
         onSubmit={async (user) => {
           try {
             toast.loading("Wait. We are creating brand new account for you...");
-            const isEmailOccupied = await checkEmail(user.email);
+            const isEmailFree = await checkEmail(user.email);
 
-            if (!isEmailOccupied) {
+            if (!isEmailFree) {
               toast.dismiss();
               toast.error("This email is already taken");
               return;

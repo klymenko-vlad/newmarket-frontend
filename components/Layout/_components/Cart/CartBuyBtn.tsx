@@ -1,8 +1,7 @@
 "use client";
-import { baseUrl } from "@/utils/baseUrl";
+
 import Ripples from "react-ripples";
 import getStripe from "@/lib/getStripe";
-import axios from "axios";
 import { toast } from "react-hot-toast";
 
 import { Product } from "@/types/types";
@@ -19,16 +18,6 @@ export default function CartBuyBtn({ cartItems }: BtnProps) {
 
       const stripe = await getStripe();
 
-      // const res = await axios.post(
-      //   `${baseUrl}/api/buy/create-checkout-session`,
-      //   JSON.stringify(cartItems),
-      //   {
-      //     headers: {
-      //       "Content-type": "application/json",
-      //     },
-      //   },
-      // );
-
       const res = await checkoutSession(cartItems);
 
       if (res.status === 500) {
@@ -38,9 +27,6 @@ export default function CartBuyBtn({ cartItems }: BtnProps) {
       if (res.status === 500) return;
 
       const data = res.data;
-
-      console.log(res.data, "helo");
-      console.log("dfasdfad", res.data);
 
       toast.loading("Redirecting...");
 

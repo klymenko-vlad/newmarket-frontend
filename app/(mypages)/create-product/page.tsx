@@ -9,10 +9,10 @@ import { toast } from "react-hot-toast";
 
 import PreviewImage from "@/components/Common/PrevievImage/PreviewImage";
 import PreviewMultipleImage from "@/components/Common/PrevievImage/PreviewMultipleImage";
-import axios from "axios";
-import { baseUrl, frontendUrl } from "@/utils/baseUrl";
+import { frontendUrl } from "@/utils/baseUrl";
 import Cookies from "js-cookie";
 import { redirect, useRouter } from "next/navigation";
+import { createItem, uploadImage } from "@/actions/itemActions";
 
 interface initialValuesInterface {
   name: string;
@@ -125,46 +125,30 @@ export default function Page() {
             try {
               formData.append("file", mainPicture);
               formData.append("upload_preset", "NewMarket");
-              const resMain = await axios.post(
-                `https://api.cloudinary.com/v1_1/dw0j1mmbp/image/upload`,
-                formData,
-              );
 
-              const mainImg = resMain.data.secure_url;
+              const mainImg = await uploadImage(formData);
+
               const imgArr = [];
 
               for (let i = 0; i < pictures.length; i++) {
                 formData.append("file", pictures[i]);
                 formData.append("upload_preset", "NewMarket");
-                const resArr = await axios.post(
-                  `https://api.cloudinary.com/v1_1/dw0j1mmbp/image/upload`,
-                  formData,
-                );
-                imgArr.push(resArr.data.secure_url);
+                const resArr = await uploadImage(formData);
+                imgArr.push(resArr);
               }
 
-              const res = await axios.post(
-                `${baseUrl}/api/item`,
-                {
-                  mainPicture: mainImg,
-                  pictures: imgArr,
-                  price,
-                  name,
-                  quantity,
-                  description,
-                  category,
-                  pastPrice,
-                },
-                {
-                  headers: {
-                    Authorization: token,
-                  },
-                },
-              );
+              const res = await createItem({
+                mainPicture: mainImg,
+                pictures: imgArr,
+                price,
+                name,
+                quantity,
+                description,
+                category,
+                pastPrice,
+              });
 
-              router.push(
-                `${frontendUrl}/product/${res.data._id}-${res.data.name}`,
-              );
+              router.push(`/product/${res.data._id}-${res.data.name}`);
             } catch (error) {
               toast.error("Something went wrong");
               console.error(error);
@@ -185,7 +169,7 @@ export default function Page() {
 
           toast.promise(sumbitData(), {
             loading: `Creating new product - ${name}...`,
-            success: <b>New product ${name} is created</b>,
+            success: <b>New product {name} is created</b>,
             error: <b>New product {name} is`nt created</b>,
           });
 
