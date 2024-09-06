@@ -4,12 +4,9 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Ripples from "react-ripples";
-import Link from "next/link";
-import axios from "axios";
-import { baseUrl } from "@/utils/baseUrl";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { checkEmail, profileUpdate } from "@/actions/authActions";
 
 interface FormMeProps {
   name: string;
@@ -42,36 +39,30 @@ const FormMe = ({ email, name, role }: FormMeProps) => {
             ) {
               return toast.error("data are the same or not specified");
             }
-            try {
-              const token = Cookies.get("token");
+            if (user.email.length > 0) {
+              const isEmailFree = await checkEmail(user.email);
 
-              const emailCheckRes = await axios.get(
-                `${baseUrl}/api/signup/${email}`,
-              );
-
-              if (emailCheckRes.data !== "Available") {
-                toast("This email is already taken and won`t be changed");
+              if (!isEmailFree) {
+                toast.error(
+                  "This email is already taken. Please change given information",
+                );
                 user.email = "";
+                return;
               }
-              const res = await axios.put(
-                `${baseUrl}/api/profile/update`,
-                { name: user.name, email: user.email, role: user.role },
-                { headers: { Authorization: token } },
-              );
+            }
 
-              resetForm();
+            const res = await profileUpdate(user);
 
-              if (res.status === 200) {
-                toast.success("Data is successfully updated");
-                router.refresh();
-              } else {
-                toast.error("Something is went wrong");
-              }
-            } catch (error) {
-              console.error(error);
+            if (res.status === 200) {
+              toast.success("Data is successfully updated");
+              router.refresh();
+            } else {
+              toast.error("Something is went wrong");
             }
           } catch (error) {
             console.error(error);
+          } finally {
+            resetForm();
           }
         }}
       >

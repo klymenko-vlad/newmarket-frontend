@@ -14,7 +14,6 @@ import { baseUrl } from "../utils/baseUrl";
  * @param {number} priceFrom - The minimum price of the items to return.
  * @param {number} priceTo - The maximum price of the items to return.
  * @param {string} category - The category of the items to return(optional).
- * @return {object} The fetched data in JSON format.
  */
 export async function getDataInfinitiveScroll(
   url: string,
@@ -39,7 +38,7 @@ export async function getDataInfinitiveScroll(
       headers: {
         "Content-Type": "application/json",
       },
-      next: { revalidate: 420 },
+      next: { revalidate: 1 },
       method: "GET",
     }).then((res) => res.json());
 

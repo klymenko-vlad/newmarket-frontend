@@ -1,19 +1,14 @@
+import Link from "next/link";
+
 import { Product } from "@/types/types";
 import EditProductForm from "./_components/EditProductForm";
-import WishListBtnAddForPage from "@/components/Common/WishListBtnForPage";
-import ProductBuyBtn from "../_components/ProductBuyBtn";
 import SliderForItem from "../_components/SliderForItem";
-import { MdAutorenew, MdDeliveryDining } from "react-icons/md";
-import IncDecBtn from "../_components/IncDecBtn";
-import AddToCartBtn from "../_components/AddToCartBtn";
-import { getProductData } from "@/actions/productPageActions";
+import { renderFilledStars } from "@/components/Common/ItemPreview/ItemPreview";
+import truncateString from "@/utils/truncateString";
+import { getProductData } from "@/actions/itemActions";
 
 interface Props {
   params: { productId: string };
-}
-
-interface ProductData {
-  product: Product[];
 }
 
 export default async function Page({ params }: Props) {
@@ -25,111 +20,81 @@ export default async function Page({ params }: Props) {
     slides.push(...product.pictures);
   }
 
-  const { product: relatedItems }: ProductData = await getProductData(
-    `/?page=1&limit=4&category=${product?.category}`,
-  );
-
-  const entity: string = `xl:grid-cols-${product?.pictures
-    ?.length!} grid-cols-2`;
-
   return (
-    <div className="px-6">
-      <h2 className="my-20 mb-6 text-center text-2xl font-bold text-red-500">
-        {`Your product (${product.name}) before changes`}
-      </h2>
-      <div className="mb-28 flex justify-center">
-        <div className="flex">
-          <div className="hidden w-1/2 items-center gap-4 md:grid">
-            <div>
-              <img
-                className="mx-auto h-auto max-h-[400px] max-w-sm rounded-lg"
-                src={product.mainPicture}
-                alt={product.name}
-              />
-            </div>
-            <div className={`grid ${entity} items-center gap-4`}>
-              {product.pictures &&
-                product.pictures.map((picture) => (
-                  <div>
-                    <img
-                      className="mx-auto max-h-28 max-w-[150px] rounded-lg"
-                      src={picture}
-                      alt={product.name}
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
+    <main className="w-full px-6">
+      <nav
+        className="mb-3 flex w-full items-center space-x-3"
+        aria-label="breadcrumb"
+      >
+        <Link
+          className="duration-600 hidden text-black transition-colors ease-in-out hover:text-red-400 sm:block"
+          href="/"
+        >
+          New Market
+        </Link>
+        <span aria-hidden="true" className="hidden sm:block">
+          /
+        </span>
+        <Link
+          className="duration-600 hidden text-black transition-colors ease-in-out hover:text-red-400 sm:block"
+          href={`/category/${product.category}`}
+        >
+          {product.category}
+        </Link>
+        <span aria-hidden="true" className="hidden sm:block">
+          /
+        </span>
+        <span className="text-red-500">{truncateString(product.name, 25)}</span>
+        <span aria-hidden="true">/</span>
+        <p>edit</p>
+      </nav>
 
-          <div className="sm:ml-6 md:w-2/5 lg:w-1/2 xl:ml-24">
-            <div>
+      <div className="flex w-full flex-wrap items-start justify-center md:flex-nowrap md:space-x-6">
+        <div className="flex items-center justify-center">
+          <div className="">
+            <div className="mx-auto w-[280px] ms:w-[380px]">
               <SliderForItem slideItems={slides} />
             </div>
-            <h1 className="mb-3 text-lg font-semibold">{product.name}</h1>
-            <div className="mb-3 flex">
-              <h3>Rating - {product.rating} | </h3>
-              <h3
-                className={` ${
-                  product.quantity >= 1 ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {product.quantity >= 1 ? " In stock" : " Not available"}
-              </h3>
-            </div>
-            <div className="mb-5 flex">
-              <h2>
-                <span className="font-bold">${product.price}</span> | Seller:{" "}
-                {product?.user?.name ? product.user.name : "Unknown"}
-              </h2>
-            </div>
-            <p className="mb-5 w-[250px] ms:w-[350px] lg:w-[350px] xl:w-[500px]">
-              {product.description}
-            </p>
-            <div className="mb-5 h-px w-[300px] bg-gray-400 lg:w-[400px]"></div>
-
-            <div className="mb-6 flex items-center justify-center">
-              <div className="flex justify-around">
-                <IncDecBtn />
-
-                <WishListBtnAddForPage product={product} />
-              </div>
-            </div>
-
-            <div className="mb-6 flex justify-around">
-              <ProductBuyBtn product={product} />
-              <AddToCartBtn text={"Add to Cart"} product={product} />
-            </div>
-
-            <div className="border">
-              <div className="flex h-[90px] items-center border">
-                <div className="mx-5 flex h-[40px] items-center justify-center">
-                  <MdDeliveryDining className="text-4xl" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-medium">Free Delivery</h4>
-                  <h4 className="text-xs font-medium underline">
-                    Enter your postal code for Delivery Availability
-                  </h4>
+            <div className="mx-4">
+              <h1 className="my-3 text-lg font-semibold">{product.name}</h1>
+              <div className="mb-3 flex justify-center ms:justify-normal">
+                <div className="flex items-center">
+                  {renderFilledStars(product.rating)}
+                  <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                    {product.rating} out of 5
+                  </p>
                 </div>
               </div>
-
-              <div className="flex h-[90px] items-center border">
-                <div className="mx-5 flex h-[40px] items-center justify-center">
-                  <MdAutorenew className="text-4xl" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium">Return Delivery</h4>
-                  <h4 className="text-xs font-medium underline">
-                    Free 30 Days Delivery Returns. Details
-                  </h4>
-                </div>
+              <div className="mb-5 flex justify-normal">
+                <h2>
+                  <span className="text-lg font-semibold">
+                    ${product.price}
+                  </span>
+                  {product.pastPrice && (
+                    <span className="ml-3 text-sm font-medium text-red-900 line-through">
+                      ${product?.pastPrice}
+                    </span>
+                  )}
+                  {"  "}| Seller:{" "}
+                  {product?.user?.name ? product.user.name : "Unknown"} |{" "}
+                  <span
+                    className={` ${
+                      product.quantity >= 1 ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {product.quantity >= 1 ? " In stock" : " Not available"}
+                  </span>
+                </h2>
               </div>
+              <p className="max-w-[300px]">{product.description}</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <EditProductForm product={product} />
-    </div>
+        <div className="my-10 block h-px w-full bg-gray-400 md:hidden"></div>
+
+        <EditProductForm product={product} />
+      </div>
+    </main>
   );
 }

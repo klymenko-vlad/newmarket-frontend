@@ -9,7 +9,7 @@ import Slider from "@/components/Common/Slider/Slider";
 import Link from "next/link";
 import ItemPreview from "@/components/Common/ItemPreview/ItemPreview";
 import Image from "next/image";
-import { getSortedItems } from "@/actions/mainPageActions";
+import { getSortedItems } from "@/actions/itemActions";
 
 interface ProductData {
   product: Product[];

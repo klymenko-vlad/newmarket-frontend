@@ -1,69 +1,60 @@
 "use client";
 
 import React from "react";
-import PropTypes from "prop-types";
-import { Formik, Field, Form, ErrorMessage, useField } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Ripples from "react-ripples";
-import Link from "next/link";
-import axios from "axios";
-import { baseUrl } from "@/utils/baseUrl";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+import { passwordUpdate } from "@/actions/authActions";
 
 const PasswordForm = () => {
-  const router = useRouter();
-
   return (
-    <>
-      <Formik
-        initialValues={{
-          oldPassword: "",
-          newPassword: "",
-          newPasswordConfirmation: "",
-        }}
-        validationSchema={Yup.object({
-          oldPassword: Yup.string()
-            .required("No password provided.")
-            .min(8, "Password is too short - should be 8 chars minimum.")
-            .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
-          newPassword: Yup.string()
-            .required("No password provided.")
-            .min(8, "Password is too short - should be 8 chars minimum.")
-            .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
-            .notOneOf(
-              [Yup.ref("oldPassword")],
-              "New password must be different from the old password.",
-            ),
-          newPasswordConfirmation: Yup.string()
-            .oneOf([Yup.ref("newPassword")], "Passwords must match")
-            .required("Please confirm your new password."),
-        })}
-        onSubmit={async (password, { resetForm }) => {
-          try {
-            const token = Cookies.get("token");
+    <Formik
+      initialValues={{
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirmation: "",
+      }}
+      validationSchema={Yup.object({
+        oldPassword: Yup.string()
+          .required("No password provided.")
+          .min(8, "Password is too short - should be 8 chars minimum.")
+          .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+        newPassword: Yup.string()
+          .required("No password provided.")
+          .min(8, "Password is too short - should be 8 chars minimum.")
+          .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
+          .notOneOf(
+            [Yup.ref("oldPassword")],
+            "New password must be different from the old password.",
+          ),
+        newPasswordConfirmation: Yup.string()
+          .oneOf([Yup.ref("newPassword")], "Passwords must match")
+          .required("Please confirm your new password."),
+      })}
+      onSubmit={async ({ newPassword, oldPassword }, { resetForm }) => {
+        try {
+          toast.loading("We are working on updating your password");
+          const res = await passwordUpdate({ newPassword, oldPassword });
+          toast.dismiss();
 
-            const res = await axios.post(
-              `${baseUrl}/api/profile/updatePassword`,
-              {
-                oldPassword: password.oldPassword,
-                newPassword: password.newPassword,
-              },
-              { headers: { Authorization: token } },
-            );
-
-            resetForm();
-
-            if (res.status === 200) {
-              alert("Data is successfully updated");
-            } else {
-              alert("Something is went wrong");
-            }
-          } catch (error) {
-            console.error(error);
+          if (res.error) {
+            toast.error(res.error);
+          } else if (res.status) {
+            toast.success("Password was successfully updated");
+          } else {
+            toast.error("Something is went wrong");
           }
-        }}
-      >
+        } catch (error) {
+          console.error(error);
+        } finally {
+          resetForm();
+        }
+      }}
+    >
+      {({ isSubmitting }) => (
         <Form className="m-auto flex w-[270px] flex-col justify-center px-8 pb-8 pt-6 ms:w-[300px] sm:w-[400px]">
           <h2 className="mb-6 text-lg font-medium text-red-500">
             Edit Your Password
@@ -129,7 +120,8 @@ const PasswordForm = () => {
           <div className="inline-flex items-center justify-start">
             <Ripples during={800} color="#6eb9f7">
               <button
-                className="rounded-md border-0 bg-blue-500 px-4 py-2 text-base font-medium uppercase text-white shadow-md transition-colors duration-500 ease-in-out hover:bg-blue-600 focus:outline-none active:bg-blue-400"
+                disabled={isSubmitting}
+                className="rounded-md border-0 bg-blue-500 px-4 py-2 text-base font-medium uppercase text-white shadow-md transition-colors duration-500 ease-in-out hover:bg-blue-600 focus:outline-none active:bg-blue-400 disabled:bg-blue-200"
                 type="submit"
               >
                 Send
@@ -137,8 +129,8 @@ const PasswordForm = () => {
             </Ripples>
           </div>
         </Form>
-      </Formik>
-    </>
+      )}
+    </Formik>
   );
 };
 

@@ -14,7 +14,7 @@ export default function Cart() {
     setShowCart,
     totalPrice,
     totalQuantities,
-    toggleCartItemQuanitity,
+    toggleCartItemQuantity,
     onRemove,
   } = useStateContext();
 
@@ -94,14 +94,14 @@ export default function Cart() {
                     <div className="container flex justify-center">
                       <span
                         className="minus"
-                        onClick={() => toggleCartItemQuanitity(item._id, "dec")}
+                        onClick={() => toggleCartItemQuantity(item._id, "dec")}
                       >
                         <span></span>
                       </span>
                       <span className="num">{item.quantity}</span>
                       <span
                         className="plus"
-                        onClick={() => toggleCartItemQuanitity(item._id, "inc")}
+                        onClick={() => toggleCartItemQuantity(item._id, "inc")}
                       >
                         <span></span>
                         <span></span>

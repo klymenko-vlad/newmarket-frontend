@@ -4,18 +4,18 @@ import React, { useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Ripples from "react-ripples";
-
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 import PreviewImage from "@/components/Common/PrevievImage/PreviewImage";
 import PreviewMultipleImage from "@/components/Common/PrevievImage/PreviewMultipleImage";
-import axios from "axios";
-import { baseUrl } from "@/utils/baseUrl";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import { Product, User } from "@/types/types";
 
-interface initialValuesInterface {
+import { Product } from "@/types/types";
+import { getMe } from "@/actions/authActions";
+import itemUpdate, { uploadImage } from "@/actions/itemActions";
+
+export interface initialValuesInterface {
   [key: string]: string | number | File | string[] | FileList;
   name: string;
   mainPicture: File | string;
@@ -36,25 +36,15 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
 
   useEffect(() => {
     const profileCheck = async () => {
-      interface UserData {
-        data: {
-          user: User;
-        };
-      }
-
       try {
         const token = Cookies.get("token");
         if (!token) {
           throw new Error("You can`t edit this product");
         }
 
-        const { data }: UserData = await axios.get(`${baseUrl}/api/auth`, {
-          headers: {
-            Authorization: token.toString(),
-          },
-        });
+        const user = await getMe();
 
-        if (data.user._id !== product.user._id) {
+        if (user?._id !== product.user._id) {
           throw new Error("You can`t edit this product");
         }
       } catch (error) {
@@ -83,7 +73,7 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
   };
 
   return (
-    <div className="mx-3 mt-32 md:mx-12 lg:mx-24 lg:mt-40">
+    <div className="w-full">
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object({
@@ -129,23 +119,22 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
               }
               return true;
             }),
-
           price: Yup.number().moreThan(0),
           pastPrice: Yup.number().moreThan(
             Yup.ref("price"),
             "Past price must be greater than price",
           ),
           name: Yup.string()
-            .min(2, "Atleast 2 characters")
+            .min(2, "At least 2 characters")
             .max(25, "Name must be less than 25 characters"),
           quantity: Yup.number().moreThan(0),
           description: Yup.string()
-            .min(10, "Atleast 10 characters")
+            .min(10, "At least 10 characters")
             .max(500, "Name must be less than 500 characters"),
           category: Yup.string(),
         })}
         onSubmit={async (values, { setSubmitting }) => {
-          const sumbitData = async (token: string) => {
+          const submitData = async () => {
             const formData = new FormData();
             try {
               const editedProduct: Partial<initialValuesInterface> = {};
@@ -154,22 +143,19 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
               if (values.mainPicture) {
                 formData.append("file", mainPicture);
                 formData.append("upload_preset", "NewMarket");
-                const resMain = await axios.post(
-                  `https://api.cloudinary.com/v1_1/dw0j1mmbp/image/upload`,
-                  formData,
-                );
-
-                mainImg = resMain.data.secure_url;
+                mainImg = await uploadImage(formData);
               }
+
               if (values.pictures.length >= 1) {
                 for (let i = 0; i < pictures.length; i++) {
                   formData.append("file", pictures[i]);
                   formData.append("upload_preset", "NewMarket");
-                  const resArr = await axios.post(
-                    `https://api.cloudinary.com/v1_1/dw0j1mmbp/image/upload`,
-                    formData,
-                  );
-                  imgArr.push(resArr.data.secure_url);
+                  const resArr = await uploadImage(formData);
+                  if (!resArr) {
+                    toast.error(`${i + 1} image hasn't been uploaded`);
+                    continue;
+                  }
+                  imgArr.push(resArr);
                 }
               }
 
@@ -195,15 +181,9 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
                 }
               }
 
-              const res = await axios.put(
-                `${baseUrl}/api/item/${product._id}`,
-                editedProduct,
-                {
-                  headers: {
-                    Authorization: token.toString(),
-                  },
-                },
-              );
+              const res = await itemUpdate(product._id, editedProduct);
+
+              console.log(res);
 
               router.refresh();
             } catch (error) {
@@ -226,9 +206,9 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
             pastPrice,
           } = values;
 
-          toast.promise(sumbitData(token), {
+          toast.promise(submitData(), {
             loading: `Editing new product - ${name}...`,
-            success: <b>New product ${name} is edited</b>,
+            success: <b>New product {name} is edited</b>,
             error: <b>New product {name} is`nt edited</b>,
           });
 
@@ -241,7 +221,7 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
       >
         {({ setFieldValue, values, errors }) => (
           <Form
-            className="m-auto flex w-[250px] flex-col justify-center pb-8 pt-6 ms:w-[80%] lg:px-8 xl:w-[1000px]"
+            className="m-auto flex flex-col justify-center"
             encType="multipart/form-data"
           >
             <h2 className="mb-6 text-2xl font-bold text-red-500">
@@ -379,9 +359,7 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
                     className="mt-2 text-red-500"
                   />
                 </div>
-              </div>
 
-              <div className="ml-5 flex w-full justify-center xl:block">
                 <div className="w-full">
                   <div className="mb-10 bg-white">
                     <label
@@ -443,7 +421,7 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
                 </div>
               </div>
             </div>
-            <div className="mx-auto inline-flex items-center justify-start sm:mx-0">
+            <div className="mx-0 inline-flex items-center justify-start">
               <Ripples during={800} color="#6eb9f7">
                 <button
                   className="rounded-md border-0 bg-blue-500 px-4 py-2 text-base font-medium uppercase text-white shadow-md transition-colors duration-500 ease-in-out hover:bg-blue-600 focus:outline-none active:bg-blue-400"

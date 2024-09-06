@@ -12,7 +12,7 @@ import Link from "next/link";
 import { MdAutorenew, MdDeliveryDining } from "react-icons/md";
 import IncDecBtn from "./_components/IncDecBtn";
 import AddToCartBtn from "./_components/AddToCartBtn";
-import { getProductData } from "@/actions/productPageActions";
+import { getProductData } from "@/actions/itemActions";
 
 interface Props {
   params: { productId: string };

@@ -28,7 +28,7 @@ interface Context {
   onAddWishList: (product: Product) => void;
   onRemove: (product: Product) => void;
   onAdd: (product: Product, quantity: number) => void;
-  toggleCartItemQuanitity: (id: string, value: "inc" | "dec") => void;
+  toggleCartItemQuantity: (id: string, value: "inc" | "dec") => void;
 }
 
 const Context = createContext<Context>({} as Context);
@@ -154,7 +154,7 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const toggleCartItemQuanitity = (id: string, value: "inc" | "dec") => {
+  const toggleCartItemQuantity = (id: string, value: "inc" | "dec") => {
     const foundProduct = cartItems.find((item) => item._id === id);
 
     if (!foundProduct) return;
@@ -252,7 +252,7 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
         onAdd,
         incrementQuantities,
         decrementQuantities,
-        toggleCartItemQuanitity,
+        toggleCartItemQuantity,
         onRemove,
         setCartItems,
         setTotalPrice,
