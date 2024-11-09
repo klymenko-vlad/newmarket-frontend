@@ -13,6 +13,7 @@ import { MdAutorenew, MdDeliveryDining } from "react-icons/md";
 import IncDecBtn from "./_components/IncDecBtn";
 import AddToCartBtn from "./_components/AddToCartBtn";
 import { getProductData } from "@/actions/itemActions";
+import truncateString from "@/utils/truncateString";
 
 interface Props {
   params: { productId: string };
@@ -20,14 +21,6 @@ interface Props {
 
 interface ProductData {
   product: Product[];
-}
-
-function truncateString(str: string, maxLength: number) {
-  if (str.length <= maxLength) {
-    return str;
-  } else {
-    return str.slice(0, maxLength) + "...";
-  }
 }
 
 export default async function page({ params }: Props) {
@@ -152,7 +145,7 @@ export default async function page({ params }: Props) {
           </div>
         </div>
       </div>
-      <div className="mb-6 ml-16">
+      <div className="mb-6 ml-4">
         <div className="mb-6 flex items-center">
           <div className="h-[40px] w-[20px] rounded-[10%] bg-red-500"></div>
           <p className="ml-5 font-medium text-red-500">Related Item</p>
