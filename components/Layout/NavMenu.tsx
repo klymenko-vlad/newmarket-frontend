@@ -1,6 +1,6 @@
 "use client";
 
-import { useStateContext } from "@/context/StateContext";
+import { showIsBurgerMenu } from "@/lib/Features/showMenu/showMenuSlice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoMdFootball } from "react-icons/io";
@@ -13,20 +13,21 @@ import {
   MdWatch,
   MdWoman,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 type NavMenuProps = {
   notBurgerMenu?: boolean;
 };
 
 const NavMenu: React.FC<NavMenuProps> = ({ notBurgerMenu = true }) => {
+  const dispatch = useDispatch();
+
   const disableBurgerMenu = () => {
     if (notBurgerMenu) return;
-    setShowBurgerMenu(false);
+    dispatch(showIsBurgerMenu(false));
   };
 
   const pathname = usePathname();
-
-  const { setShowBurgerMenu } = useStateContext();
 
   return (
     <ul className="mb-10 mt-20 grid w-full grid-cols-1 items-center justify-around gap-3 whitespace-nowrap px-3 text-center font-medium xs:grid-cols-2 sm:grid-cols-4 xl:grid-cols-8">

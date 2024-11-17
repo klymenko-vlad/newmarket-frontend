@@ -5,25 +5,17 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 interface Context {
-  showCart: boolean;
   cartItems: Product[];
   totalPrice: number;
   totalQuantities: number;
   quantities: number;
-  showWishList: boolean;
   wishListItems: Product[];
-  showBurgerMenu: boolean;
 
-  setShowWishList: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowBurgerMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
   setCartItems: React.Dispatch<React.SetStateAction<Product[]>>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
   setWishListItems: React.Dispatch<React.SetStateAction<Product[]>>;
   setTotalQuantities: React.Dispatch<React.SetStateAction<number>>;
 
-  decrementQuantities: () => void;
-  incrementQuantities: () => void;
   onRemoveWishList: (product: Product) => void;
   onAddWishList: (product: Product) => void;
   onRemove: (product: Product) => void;
@@ -36,7 +28,6 @@ const Context = createContext<Context>({} as Context);
 export const StateContext: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [showCart, setShowCart] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
@@ -44,7 +35,6 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
 
   const [showWishList, setShowWishList] = useState<boolean>(false);
   const [wishListItems, setWishListItems] = useState<Product[]>([]);
-  const [showBurgerMenu, setShowBurgerMenu] = useState<boolean>(false);
 
   useEffect(() => {
     const storedWishListItems = localStorage.getItem("wishListItems");
@@ -143,17 +133,6 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("totalQuantities", totalQuantities.toString());
   };
 
-  const incrementQuantities = () => {
-    setQuantities((prevQty) => prevQty + 1);
-  };
-
-  const decrementQuantities = () => {
-    setQuantities((prevQty) => {
-      if (prevQty - 1 < 1) return 1;
-      return prevQty - 1;
-    });
-  };
-
   const toggleCartItemQuantity = (id: string, value: "inc" | "dec") => {
     const foundProduct = cartItems.find((item) => item._id === id);
 
@@ -237,21 +216,13 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
   return (
     <Context.Provider
       value={{
-        showCart,
         cartItems,
         totalPrice,
         totalQuantities,
         quantities,
-        showWishList,
         wishListItems,
-        showBurgerMenu,
 
-        setShowWishList,
-        setShowBurgerMenu,
-        setShowCart,
         onAdd,
-        incrementQuantities,
-        decrementQuantities,
         toggleCartItemQuantity,
         onRemove,
         setCartItems,

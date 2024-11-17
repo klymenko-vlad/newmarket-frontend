@@ -1,20 +1,28 @@
 "use client";
 
-import React, { memo } from "react";
+import React from "react";
 import "@/app/styles.css";
-import { useStateContext } from "@/context/StateContext";
+
+import type { RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decrement,
+  increment,
+} from "@/lib/Features/quantities/quantitiesSlice";
 
 function IncDecBtn() {
-  const { decrementQuantities, incrementQuantities, quantities } =
-    useStateContext();
+  const totalQuantities = useSelector(
+    (state: RootState) => state.quantities.totalQuantities,
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className="container">
-      <span className="minus" onClick={decrementQuantities}>
+      <span className="minus" onClick={() => dispatch(decrement())}>
         <span></span>
       </span>
-      <span className="num">{quantities}</span>
-      <span className="plus" onClick={incrementQuantities}>
+      <span className="num">{totalQuantities}</span>
+      <span className="plus" onClick={() => dispatch(increment())}>
         <span></span>
         <span></span>
       </span>

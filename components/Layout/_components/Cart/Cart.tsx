@@ -6,17 +6,24 @@ import { MdArrowBackIosNew, MdOutlineClose } from "react-icons/md";
 
 import "@/app/styles.css";
 import CartBuyBtn from "./CartBuyBtn";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { showIsCart } from "@/lib/Features/showMenu/showMenuSlice";
 
 export default function Cart() {
   const {
     cartItems,
-    showCart,
-    setShowCart,
+    // showCart,
+    // setShowCart,
     totalPrice,
     totalQuantities,
     toggleCartItemQuantity,
     onRemove,
   } = useStateContext();
+
+  const showCart = useSelector((state: RootState) => state.showMenu.isCart);
+
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -28,12 +35,12 @@ export default function Cart() {
         className={`fixed inset-0 w-full bg-black bg-opacity-50 transition-opacity delay-300 duration-500 ease-in ${
           showCart ? "opacity-95" : "opacity-0"
         }`}
-        onClick={() => setShowCart(false)}
+        onClick={() => dispatch(showIsCart(false))}
       />
       <div className="absolute right-0 top-0 h-screen w-80 bg-white p-2 shadow-2xl">
         <div
           className="flex cursor-pointer items-center"
-          onClick={() => setShowCart(false)}
+          onClick={() => dispatch(showIsCart(false))}
         >
           <MdArrowBackIosNew className="text-xl" />
 
@@ -50,7 +57,7 @@ export default function Cart() {
                 </h3>
                 <button
                   className="mb-2 mr-2 rounded-full bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white transition-colors duration-500 ease-in-out hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                  onClick={() => setShowCart(false)}
+                  onClick={() => dispatch(showIsCart(false))}
                 >
                   Continue shopping
                 </button>

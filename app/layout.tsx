@@ -9,6 +9,7 @@ import BurgerMenu from "@/components/Layout/BurgerMenu";
 import Cart from "@/components/Layout/_components/Cart/Cart";
 import WishList from "@/components/Layout/_components/WishList/WishList";
 import NavMenu from "@/components/Layout/NavMenu";
+import { Providers } from "@/lib/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,18 +26,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StateContext>
-          <Header />
-          <NavMenu />
+        <Providers>
+          <StateContext>
+            <Header />
+            <NavMenu />
 
-          <Toaster />
-          {children}
-          <BurgerMenu />
-          <Cart />
-          <WishList />
+            <Toaster />
+            {children}
+            <BurgerMenu />
+            <Cart />
+            <WishList />
 
-          <Footer />
-        </StateContext>
+            <Footer />
+          </StateContext>
+        </Providers>
       </body>
     </html>
   );

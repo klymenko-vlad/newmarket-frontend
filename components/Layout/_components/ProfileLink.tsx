@@ -11,9 +11,11 @@ import {
   MdOutlineLogout,
   MdOutlinePerson,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { showIsBurgerMenu } from "@/lib/Features/showMenu/showMenuSlice";
 
 const ProfileLink = () => {
-  const { setShowBurgerMenu } = useStateContext();
+  const dispatch = useDispatch();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -35,7 +37,7 @@ const ProfileLink = () => {
       <Link
         href={hasTokenCookie ? "/me" : "/login"}
         className={`flex cursor-pointer items-center transition-colors hover:text-red-500`}
-        onClick={() => setShowBurgerMenu(false)}
+        onClick={() => showIsBurgerMenu(false)}
       >
         {hasTokenCookie ? (
           <MdAccountCircle className="inline-block text-2xl text-red-500 transition-colors hover:text-red-600" />

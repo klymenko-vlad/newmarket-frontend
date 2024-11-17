@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useStateContext } from "@/context/StateContext";
 import Link from "next/link";
 import WishListBtn from "./_components/WishList/WishListAndCartBtn";
 import ProfileLink from "./_components/ProfileLink";
@@ -21,24 +20,32 @@ import {
   MdWoman,
 } from "react-icons/md";
 import { IoMdFootball } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { showIsBurgerMenu } from "@/lib/Features/showMenu/showMenuSlice";
 
 export default function BurgerMenu() {
-  const { showBurgerMenu, setShowBurgerMenu } = useStateContext();
   const pathname = usePathname();
+
+  const isBurgerMenu = useSelector(
+    (state: RootState) => state.showMenu.isBurgerMenu,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <div
       className={`fixed inset-0 z-50 transform transition-transform duration-500 ease-in-out ${
-        showBurgerMenu
+        isBurgerMenu
           ? "translate-x-0 opacity-100"
           : "translate-x-full opacity-0"
       }`}
     >
       <div
         className={`fixed inset-0 w-full bg-black bg-opacity-50 transition-opacity delay-300 duration-500 ease-in ${
-          showBurgerMenu ? "opacity-95" : "opacity-0"
+          isBurgerMenu ? "opacity-95" : "opacity-0"
         }`}
-        onClick={() => setShowBurgerMenu(false)}
+        onClick={() => dispatch(showIsBurgerMenu(false))}
       />
       <div
         className="absolute right-0 top-0 h-full w-80 overflow-y-auto bg-white p-4 shadow-2xl"
@@ -47,7 +54,7 @@ export default function BurgerMenu() {
         <div className="flex space-x-4">
           <div
             className="flex cursor-pointer items-center justify-center text-xl"
-            onClick={() => setShowBurgerMenu(false)}
+            onClick={() => dispatch(showIsBurgerMenu(false))}
           >
             <MdArrowBackIosNew />
           </div>
@@ -63,7 +70,7 @@ export default function BurgerMenu() {
                   pathname == "/" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdOutlineShoppingBag className="inline-block text-2xl" />
                 <p>Home</p>
@@ -76,7 +83,7 @@ export default function BurgerMenu() {
                   pathname == "/all" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/all"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdOutlineShoppingCart className="inline-block text-2xl" />
                 <p> All Products</p>
@@ -89,7 +96,7 @@ export default function BurgerMenu() {
                   pathname == "/contact" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/contact"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdContacts className="inline-block text-2xl" />
                 <p>Contacts</p>
@@ -102,7 +109,7 @@ export default function BurgerMenu() {
                   pathname == "/about" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/about"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdOutlineContactSupport className="inline-block text-2xl" />
                 <p>About</p>
@@ -115,7 +122,7 @@ export default function BurgerMenu() {
                   pathname == "/category/womanfashion" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/womanfashion"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdWoman className="inline-block text-2xl" />
                 <p>Woman’s Fashion</p>
@@ -128,7 +135,7 @@ export default function BurgerMenu() {
                   pathname == "/category/menfashion" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/menfashion"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdMan className="inline-block text-2xl" />
                 <p> Men’s Fashion</p>
@@ -141,7 +148,7 @@ export default function BurgerMenu() {
                   pathname == "/category/electronics" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/electronics"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdLaptop className="inline-block text-2xl" />
                 <p>Electronics</p>
@@ -154,7 +161,7 @@ export default function BurgerMenu() {
                   pathname == "/category/accessories" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/accessories"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdWatch className="inline-block text-2xl" />
                 <p>Accessories</p>
@@ -167,7 +174,7 @@ export default function BurgerMenu() {
                   pathname == "/category/furniture" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/furniture"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdTableRestaurant className="inline-block text-2xl" />
                 <p>Furniture</p>
@@ -180,7 +187,7 @@ export default function BurgerMenu() {
                   pathname == "/category/football" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/football"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <IoMdFootball className="inline-block text-2xl" />
                 <p>Football</p>
@@ -193,7 +200,7 @@ export default function BurgerMenu() {
                   pathname == "/category/groceries" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/groceries"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdFoodBank className="inline-block text-2xl" />
                 <p>Groceries</p>
@@ -206,7 +213,7 @@ export default function BurgerMenu() {
                   pathname == "/category/other" && "text-red-600"
                 } duration-600 flex items-center justify-start gap-1 transition-colors ease-in-out hover:text-red-400`}
                 href="/category/other"
-                onClick={() => setShowBurgerMenu(false)}
+                onClick={() => dispatch(showIsBurgerMenu(false))}
               >
                 <MdShoppingCartCheckout className="inline-block text-2xl" />
                 <p>Other</p>

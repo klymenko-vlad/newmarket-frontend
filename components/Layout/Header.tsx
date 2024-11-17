@@ -9,11 +9,18 @@ import ProfileLink from "./_components/ProfileLink";
 import SearchHeaderForm from "./_components/SearchHeaderForm";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useStateContext } from "@/context/StateContext";
+import { showIsBurgerMenu } from "@/lib/Features/showMenu/showMenuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 const Header = () => {
   const pathname = usePathname();
-  const { showBurgerMenu, setShowBurgerMenu, setShowWishList, setShowCart } =
-    useStateContext();
+
+  const isBurgerMenu = useSelector(
+    (state: RootState) => state.showMenu.isBurgerMenu,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <header className="fixed left-0 top-0 z-20 flex w-full items-center justify-around space-x-2 border-b border-gray-200 bg-white p-2">
@@ -73,16 +80,10 @@ const Header = () => {
           <ProfileLink />
         </div>
 
-        <button
-          onClick={() => {
-            setShowBurgerMenu(!showBurgerMenu);
-            setShowCart(false);
-            setShowWishList(false);
-          }}
-        >
+        <button onClick={() => dispatch(showIsBurgerMenu(true))}>
           <RxHamburgerMenu
             className={`inline-block text-2xl transition-transform duration-300 md:hidden ${
-              showBurgerMenu ? "rotate-90" : "rotate-0"
+              isBurgerMenu ? "rotate-90" : "rotate-0"
             }`}
           />
         </button>

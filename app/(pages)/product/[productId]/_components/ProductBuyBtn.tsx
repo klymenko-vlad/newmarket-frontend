@@ -1,19 +1,23 @@
 "use client";
 
 import { useStateContext } from "@/context/StateContext";
+import { showIsCart } from "@/lib/Features/showMenu/showMenuSlice";
 import { Product } from "@/types/types";
+import { useDispatch } from "react-redux";
 
 interface ItemProps {
   product: Product;
 }
 
 export default function ProductBuyBtn({ product }: ItemProps) {
-  const { onAdd, quantities, setShowCart } = useStateContext();
+  const { onAdd, quantities } = useStateContext();
+
+  const dispatch = useDispatch();
 
   const handleBuyNow = () => {
     onAdd(product, quantities);
 
-    setShowCart(true);
+    dispatch(showIsCart(true));
   };
 
   return (

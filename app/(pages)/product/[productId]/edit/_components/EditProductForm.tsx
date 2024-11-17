@@ -422,14 +422,15 @@ export default function EditProductForm({ product }: PropsEditProductForm) {
               </div>
             </div>
             <div className="mx-0 inline-flex items-center justify-start">
-              <Ripples during={800} color="#6eb9f7">
-                <button
-                  className="rounded-md border-0 bg-blue-500 px-4 py-2 text-base font-medium uppercase text-white shadow-md transition-colors duration-500 ease-in-out hover:bg-blue-600 focus:outline-none active:bg-blue-400"
-                  type="submit"
-                >
-                  Edit Your Product
-                </button>
-              </Ripples>
+              //TODO FIX Ripples
+              {/* <Ripples during={800} color="#6eb9f7"> */}
+              <button
+                className="rounded-md border-0 bg-blue-500 px-4 py-2 text-base font-medium uppercase text-white shadow-md transition-colors duration-500 ease-in-out hover:bg-blue-600 focus:outline-none active:bg-blue-400"
+                type="submit"
+              >
+                Edit Your Product
+              </button>
+              {/* </Ripples> */}
             </div>
           </Form>
         )}

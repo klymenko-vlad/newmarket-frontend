@@ -1,36 +1,26 @@
 "use client";
 
-import { useStateContext } from "@/context/StateContext";
+import {
+  showIsCart,
+  showIsWishList,
+} from "@/lib/Features/showMenu/showMenuSlice";
 import { MdFavoriteBorder, MdOutlineShoppingCart } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
 export default function WishListBtn() {
-  const {
-    showWishList,
-    setShowWishList,
-    showCart,
-    setShowCart,
-    setShowBurgerMenu,
-  } = useStateContext();
+  const dispatch = useDispatch();
 
   return (
     <div className="flex items-center justify-center space-x-4">
       <button
-        onClick={() => {
-          setShowWishList(!showWishList);
-          setShowCart(false);
-          setShowBurgerMenu(false);
-        }}
+        onClick={() => dispatch(showIsWishList(true))}
         className="cursor-pointer"
       >
         <MdFavoriteBorder className="inline-block text-2xl transition-colors hover:text-red-500" />
       </button>
 
       <button
-        onClick={() => {
-          setShowCart(!showCart);
-          setShowWishList(false);
-          setShowBurgerMenu(false);
-        }}
+        onClick={() => dispatch(showIsCart(true))}
         className="cursor-pointer"
       >
         <MdOutlineShoppingCart className="inline-block text-2xl transition-colors hover:text-red-500" />

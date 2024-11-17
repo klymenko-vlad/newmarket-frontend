@@ -1,33 +1,39 @@
 "use client";
 
 import { useStateContext } from "@/context/StateContext";
+import { showIsWishList } from "@/lib/Features/showMenu/showMenuSlice";
+import { RootState } from "@/lib/store";
 import { Product } from "@/types/types";
 import truncateString from "@/utils/truncateString";
 import Link from "next/link";
 import { MdArrowBackIosNew, MdOutlineClose } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function WishList() {
-  const { wishListItems, showWishList, setShowWishList, onRemoveWishList } =
-    useStateContext();
+  const { wishListItems, onRemoveWishList } = useStateContext();
+
+  const isWishList = useSelector(
+    (state: RootState) => state.showMenu.isWishList,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <div
       className={`fixed inset-0 z-50 transform transition-transform duration-500 ease-in-out ${
-        showWishList
-          ? "translate-x-0 opacity-100"
-          : "translate-x-full opacity-0"
+        isWishList ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       }`}
     >
       <div
         className={`fixed inset-0 w-full bg-black bg-opacity-50 transition-opacity delay-300 duration-500 ease-in ${
-          showWishList ? "opacity-95" : "opacity-0"
+          isWishList ? "opacity-95" : "opacity-0"
         }`}
-        onClick={() => setShowWishList(false)}
+        onClick={() => dispatch(showIsWishList(false))}
       />
       <div className="absolute right-0 top-0 h-screen w-80 bg-white p-2 shadow-2xl">
         <div
           className="flex cursor-pointer items-center"
-          onClick={() => setShowWishList(false)}
+          onClick={() => dispatch(showIsWishList(false))}
         >
           <MdArrowBackIosNew className="text-xl" />
         </div>
@@ -41,7 +47,7 @@ export default function WishList() {
                 </h3>
                 <button
                   className="mb-2 mr-2 rounded-full bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white transition-colors duration-500 ease-in-out hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                  onClick={() => setShowWishList(false)}
+                  onClick={() => dispatch(showIsWishList(false))}
                 >
                   Continue shopping
                 </button>
@@ -140,7 +146,7 @@ export default function WishList() {
               <Link href="/wishlist">
                 <button
                   type="button"
-                  onClick={() => setShowWishList(false)}
+                  onClick={() => dispatch(showIsWishList(false))}
                   className="mb-2 justify-self-start rounded-lg bg-red-700 px-2 py-2.5 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300"
                 >
                   Show all {wishListItems.length} wished products on a page
