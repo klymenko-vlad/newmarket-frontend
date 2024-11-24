@@ -7,15 +7,22 @@ import "@/app/styles.css";
 import truncateString from "@/utils/truncateString";
 import { MdOutlineClose } from "react-icons/md";
 import CartBuyBtn from "@/components/Layout/_components/Cart/CartBuyBtn";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 const page = () => {
   const {
-    cartItems,
+    // cartItems,
     onRemove,
     toggleCartItemQuantity,
     totalPrice,
     totalQuantities,
   } = useStateContext();
+
+  const cartItems = useSelector(
+    (state: RootState) => state.cartItems.cartItems,
+  );
+
   return (
     <div className="px-6">
       <h1 className="mb-8 text-center text-3xl font-bold">

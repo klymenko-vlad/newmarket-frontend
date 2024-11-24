@@ -12,7 +12,7 @@ import { showIsCart } from "@/lib/Features/showMenu/showMenuSlice";
 
 export default function Cart() {
   const {
-    cartItems,
+    // cartItems,
     // showCart,
     // setShowCart,
     totalPrice,
@@ -22,6 +22,10 @@ export default function Cart() {
   } = useStateContext();
 
   const showCart = useSelector((state: RootState) => state.showMenu.isCart);
+
+  const cartItems = useSelector(
+    (state: RootState) => state.cartItems.cartItems,
+  );
 
   const dispatch = useDispatch();
 

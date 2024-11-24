@@ -1,15 +1,27 @@
 "use client";
 
 import { useStateContext } from "@/context/StateContext";
+import {
+  addToWishList,
+  removeItemFromWishList,
+} from "@/lib/Features/wishList/wishListSlice";
+import { RootState } from "@/lib/store";
 import { Product } from "@/types/types";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 interface ItemProps {
   product: Product;
 }
 
 export default function WishListBtnAddItem({ product }: ItemProps) {
-  const { onAddWishList, wishListItems, onRemoveWishList } = useStateContext();
+  // const { onAddWishList, onRemoveWishList } = useStateContext();
+
+  const wishListItems = useSelector(
+    (state: RootState) => state.wishList.wishListItems,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <button
@@ -18,9 +30,9 @@ export default function WishListBtnAddItem({ product }: ItemProps) {
       onClick={(event) => {
         event.preventDefault();
         if (wishListItems.some((item) => item._id === product._id)) {
-          onRemoveWishList(product);
+          dispatch(removeItemFromWishList(product));
         } else {
-          onAddWishList(product);
+          dispatch(addToWishList(product));
         }
       }}
     >

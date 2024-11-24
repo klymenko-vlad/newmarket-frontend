@@ -1,19 +1,26 @@
 import { configureStore } from "@reduxjs/toolkit";
-import quantitiesReducer, {
-  QuantitiesState,
-} from "./Features/quantities/quantitiesSlice";
 
 import showMenuReducer, {
   showMenuState,
 } from "./Features/showMenu/showMenuSlice";
 
+import wishListReducer, {
+  WishListState,
+} from "./Features/wishList/wishListSlice";
+
+import cartItemsReducer, {
+  CartItemsState,
+} from "./Features/cartItems/cartItemsSlice";
+
 export const store = configureStore<{
-  quantities: QuantitiesState;
   showMenu: showMenuState;
+  wishList: WishListState;
+  cartItems: CartItemsState;
 }>({
   reducer: {
-    quantities: quantitiesReducer,
     showMenu: showMenuReducer,
+    wishList: wishListReducer,
+    cartItems: cartItemsReducer,
   },
 });
 

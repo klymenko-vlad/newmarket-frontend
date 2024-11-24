@@ -5,21 +5,17 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 interface Context {
-  cartItems: Product[];
+  // cartItems: Product[];
   totalPrice: number;
   totalQuantities: number;
   quantities: number;
-  wishListItems: Product[];
 
   setCartItems: React.Dispatch<React.SetStateAction<Product[]>>;
   setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
-  setWishListItems: React.Dispatch<React.SetStateAction<Product[]>>;
   setTotalQuantities: React.Dispatch<React.SetStateAction<number>>;
 
-  onRemoveWishList: (product: Product) => void;
-  onAddWishList: (product: Product) => void;
   onRemove: (product: Product) => void;
-  onAdd: (product: Product, quantity: number) => void;
+  // onAdd: (product: Product, quantity: number) => void;
   toggleCartItemQuantity: (id: string, value: "inc" | "dec") => void;
 }
 
@@ -32,22 +28,6 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [quantities, setQuantities] = useState(1);
-
-  const [showWishList, setShowWishList] = useState<boolean>(false);
-  const [wishListItems, setWishListItems] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const storedWishListItems = localStorage.getItem("wishListItems");
-
-    if (storedWishListItems) {
-      setWishListItems(JSON.parse(storedWishListItems));
-    }
-    setShowWishList;
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("wishListItems", JSON.stringify(wishListItems));
-  }, [wishListItems]);
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -74,27 +54,6 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
   }, [cartItems, totalPrice, totalQuantities]);
 
   let foundProduct: Product | undefined;
-  let index: number;
-
-  const onAddWishList = (product: Product) => {
-    if (wishListItems.length > 20) {
-      return toast.error("You already have 20 products in wish list.");
-    }
-    const checkUpdatedWishListItems = wishListItems.find(
-      (item) => item._id === product._id,
-    );
-
-    if (checkUpdatedWishListItems) {
-      return toast.error("Already added to the wish list", { duration: 4000 });
-    }
-
-    const updatedWishListItems = [...wishListItems, { ...product }];
-
-    setWishListItems(updatedWishListItems);
-    toast.success(`${product.name} added to the wish list`);
-
-    localStorage.setItem("wishListItems", JSON.stringify(updatedWishListItems));
-  };
 
   const onAdd = (product: Product, quantity: number) => {
     const checkProductInCart = cartItems.find(
@@ -177,18 +136,6 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("totalQuantities", updatedTotalQuantities.toString());
   };
 
-  const onRemoveWishList = (product: Product) => {
-    foundProduct = wishListItems.find((item) => item._id === product._id);
-    if (!foundProduct) return;
-    const newWishListItems = wishListItems.filter(
-      (item) => item._id !== product._id,
-    );
-
-    setWishListItems(newWishListItems);
-
-    localStorage.setItem("wishListItems", JSON.stringify(newWishListItems));
-  };
-
   const onRemove = (product: Product) => {
     foundProduct = cartItems.find((item) => item._id === product._id);
 
@@ -216,21 +163,17 @@ export const StateContext: React.FC<{ children: React.ReactNode }> = ({
   return (
     <Context.Provider
       value={{
-        cartItems,
+        // cartItems,
         totalPrice,
         totalQuantities,
         quantities,
-        wishListItems,
 
-        onAdd,
+        // onAdd,
         toggleCartItemQuantity,
         onRemove,
         setCartItems,
         setTotalPrice,
         setTotalQuantities,
-        setWishListItems,
-        onAddWishList,
-        onRemoveWishList,
       }}
     >
       {children}

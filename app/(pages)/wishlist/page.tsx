@@ -1,12 +1,16 @@
 "use client";
 
 import ItemPreview from "@/components/Common/ItemPreview/ItemPreview";
-import { useStateContext } from "@/context/StateContext";
+import { RootState } from "@/lib/store";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const page = () => {
-  const { wishListItems } = useStateContext();
+  const wishListItems = useSelector(
+    (state: RootState) => state.wishList.wishListItems,
+  );
+
   return (
     <div className="mx-4 my-24">
       <h1 className="mb-8 text-center text-3xl font-bold">Your Wish List</h1>

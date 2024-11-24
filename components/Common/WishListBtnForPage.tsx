@@ -6,13 +6,25 @@ import { Product } from "@/types/types";
 import Image from "next/image";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import {
+  addToWishList,
+  removeItemFromWishList,
+} from "@/lib/Features/wishList/wishListSlice";
 
 interface ItemProps {
   product: Product;
 }
 
 function WishListBtnAddForPage({ product }: ItemProps) {
-  const { onAddWishList, wishListItems, onRemoveWishList } = useStateContext();
+  // const { onAddWishList, wishListItems, onRemoveWishList } = useStateContext();
+
+  const wishListItems = useSelector(
+    (state: RootState) => state.wishList.wishListItems,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <button
@@ -21,9 +33,9 @@ function WishListBtnAddForPage({ product }: ItemProps) {
       onClick={(event) => {
         event.preventDefault();
         if (wishListItems.some((item) => item._id === product._id)) {
-          onRemoveWishList(product);
+          dispatch(removeItemFromWishList(product));
         } else {
-          onAddWishList(product);
+          dispatch(addToWishList(product));
         }
       }}
     >

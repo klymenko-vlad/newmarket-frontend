@@ -2,6 +2,7 @@
 
 import { useStateContext } from "@/context/StateContext";
 import { showIsWishList } from "@/lib/Features/showMenu/showMenuSlice";
+import { removeItemFromWishList } from "@/lib/Features/wishList/wishListSlice";
 import { RootState } from "@/lib/store";
 import { Product } from "@/types/types";
 import truncateString from "@/utils/truncateString";
@@ -10,7 +11,11 @@ import { MdArrowBackIosNew, MdOutlineClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function WishList() {
-  const { wishListItems, onRemoveWishList } = useStateContext();
+  // const { wishListItems, onRemoveWishList } = useStateContext();
+
+  const wishListItems = useSelector(
+    (state: RootState) => state.wishList.wishListItems,
+  );
 
   const isWishList = useSelector(
     (state: RootState) => state.showMenu.isWishList,
@@ -87,7 +92,7 @@ export default function WishList() {
 
                       <button
                         type="button"
-                        onClick={() => onRemoveWishList(item)}
+                        onClick={() => dispatch(removeItemFromWishList(item))}
                         className="ml-5 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500"
                       >
                         <span className="sr-only">Close menu</span>
@@ -130,7 +135,7 @@ export default function WishList() {
 
                       <button
                         type="button"
-                        onClick={() => onRemoveWishList(item)}
+                        onClick={() => dispatch(removeItemFromWishList(item))}
                         className="ml-5 inline-flex h-8 w-8 items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500"
                       >
                         <span className="sr-only">Close menu</span>
